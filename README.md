@@ -2,6 +2,8 @@
 
 Production-ready Next.js SaaS starter optimized for AI-assisted development with Bun, Supabase, and strict TypeScript.
 
+> 📖 **New to AI-optimized codebases?** Check out the [Codebase Guide](./CODEBASE-GUIDE.md) for a comprehensive walkthrough of the patterns and principles used in this template.
+
 ## Stack
 
 | Technology | Choice | AI Agent Benefit |
@@ -107,7 +109,3 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 # Database (use transaction pooler for serverless)
 DATABASE_URL=postgresql://postgres.[ref]:[password]@aws-0-[region].pooler.supabase.com:6543/postgres
 ```
-
-## License
-
-MIT
