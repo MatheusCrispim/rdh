@@ -38,9 +38,9 @@ For every error handling location, ask:
 
 **Logging Quality:**
 
-- Is the error logged with appropriate severity (logError for production issues)?
-- Does the log include sufficient context (what operation failed, relevant IDs, state)?
-- Is there an error ID from constants/errorIds.ts for Sentry tracking?
+- Is the error logged with appropriate severity (`logger.error` for production issues, `logger.warn` for degraded-but-recoverable situations)?
+- Does the log include sufficient context (what operation failed, relevant IDs, state) as a structured object — e.g., `logger.error({ projectId, userId }, "project.create_failed")`?
+- Is the logger scoped to the correct domain using `getLogger("domain.component")`?
 - Would this log help someone debug the issue 6 months from now?
 
 **User Feedback:**
@@ -98,9 +98,9 @@ Look for patterns that hide errors:
 Ensure compliance with the project's error handling requirements:
 
 - Never silently fail in production code
-- Always log errors using appropriate logging functions
-- Include relevant context in error messages
-- Use proper error IDs for Sentry tracking
+- Always log errors using Pino logger (`logger.error`, `logger.warn`) with structured context
+- Include relevant IDs and state in the structured log object (e.g., `{ projectId, userId }`)
+- Use dot-namespaced event strings as the log message (e.g., `"project.create_failed"`)
 - Propagate errors to appropriate handlers
 - Never use empty catch blocks
 - Handle errors explicitly, never suppress them
@@ -132,8 +132,10 @@ You are thorough, skeptical, and uncompromising about error handling quality. Yo
 
 Be aware of project-specific patterns from CLAUDE.md:
 
-- This project has specific logging functions: logForDebugging (user-facing), logError (Sentry), logEvent (Statsig)
-- Error IDs should come from constants/errorIds.ts
+- This project uses Pino logger. Obtain a logger with `getLogger("domain.component")` (e.g., `getLogger("projects.create")`)
+- Log with structured context: `logger.info({ projectId }, "project.create_started")` — pass relevant IDs/state as the first argument and a dot-namespaced event string as the second
+- Use appropriate log levels: `logger.error` for production errors, `logger.warn` for degraded-but-recoverable situations, `logger.info` for significant lifecycle events, `logger.debug` for verbose diagnostics
+- Always include relevant IDs and state in the structured context object so logs are searchable and self-describing
 - The project explicitly forbids silent failures in production code
 - Empty catch blocks are never acceptable
 - Tests should not be fixed by disabling them; errors should not be fixed by bypassing them

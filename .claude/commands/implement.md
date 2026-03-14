@@ -73,7 +73,7 @@ git status
 **After EVERY file change:**
 
 ```bash
-pnpm run build
+bun run build
 ```
 
 **If it fails:**
@@ -99,13 +99,13 @@ Task 2: UPDATE src/y.ts ✅
 
 ```bash
 # Type check
-pnpm run build
+bun run build
 
 # Lint
-pnpm run lint
+bun run lint
 
 # Tests
-pnpm test
+bun test
 ```
 
 **All must pass with zero errors.**
@@ -234,5 +234,5 @@ mv $ARGUMENTS .agents/plans/completed/
 |---------|--------|
 | Type check fails | Read error, fix issue, re-run |
 | Tests fail | Fix implementation or test, re-run |
-| Lint fails | Run `pnpm run lint --fix`, then manual fixes |
+| Lint fails | Run `bun run lint --fix`, then manual fixes |
 | Build fails | Check error output, fix and re-run |
