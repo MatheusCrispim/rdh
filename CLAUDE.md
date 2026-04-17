@@ -2,6 +2,16 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Project Context
+
+This is a **clinical dashboard for Redirect Health (RDH)**, a medical company. Features involve patients, consultations, doctors, and clinical workflows. When building new features, use domain language from healthcare: patients (not users), consultations (not sessions), doctors/nurses (not staff), notes (not comments).
+
+**Domain rules:**
+- Clinical notes are immutable — never add edit or delete functionality for notes
+- Patient data is sensitive — never log patient names or content in structured logs, use IDs only
+- Status transitions follow clinical flow: `waiting → in-consultation → done` (or `cancelled` at any point)
+
+
 ## Commands
 
 ```bash
@@ -83,6 +93,7 @@ bun test
 ## Vertical Slice Architecture
 
 Features are organized as self-contained vertical slices in `src/features/`. Each slice owns its entire stack: data model, validation, database operations, business logic, and errors.
+
 
 **Why vertical slices:**
 - **Independence**: To understand "projects", read `src/features/projects/`. No hunting across layers.
