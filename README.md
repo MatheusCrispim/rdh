@@ -1,8 +1,17 @@
-# Next.js AI Coding Starter
+# RDH Clinical Dashboard
 
-Production-ready Next.js SaaS starter optimized for AI-assisted development with Bun, Supabase, and strict TypeScript.
+A production-ready clinical dashboard built for **Redirect Health** — optimized for AI-assisted development.
 
-> 📖 **New to AI-optimized codebases?** Check out the [Codebase Guide](./CODEBASE-GUIDE.md) for a comprehensive walkthrough of the patterns and principles used in this template.
+Built by **Matheus Crispim** as a demonstration of AI-first engineering: features are delivered from a requirements `.md` file using an orchestrated agent workflow (PRD → plan → implement → validate).
+
+> 📖 **Understanding the AI-optimized patterns?** See [CODEBASE-GUIDE.md](./CODEBASE-GUIDE.md) for a full walkthrough.
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| Patient List | View all patients with consultation status, filter by status, search by name |
+| Consultation Notes | Add and view clinical notes per consultation |
 
 ## Stack
 
@@ -22,17 +31,10 @@ Production-ready Next.js SaaS starter optimized for AI-assisted development with
 ## Quick Start
 
 ```bash
-# Install dependencies
 bun install
-
-# Set up environment
 cp .env.example .env
 # Edit .env with your Supabase credentials
-
-# Push database schema
 bun run db:push
-
-# Start development server
 bun run dev
 ```
 
@@ -62,50 +64,31 @@ src/
 │   └── supabase/          # Supabase clients
 ├── features/              # Vertical slices
 │   ├── auth/              # Auth actions & hooks
-│   └── projects/          # Example feature slice
+│   ├── patients/          # Patient list + status
+│   ├── consultation-notes/ # Clinical notes per consultation
+│   └── projects/          # Base example slice
 ├── shared/                # Cross-feature utilities
-│   ├── schemas/           # Pagination, errors
-│   └── utils/             # Date, format helpers
 └── components/            # UI components
-    └── ui/                # shadcn/ui components
 ```
 
-## Vertical Slice Pattern
+## AI Workflow
 
-Each feature is self-contained:
-
-```
-src/features/{feature}/
-├── models.ts      # Drizzle types
-├── schemas.ts     # Zod validation
-├── repository.ts  # Database queries
-├── service.ts     # Business logic
-├── errors.ts      # Custom errors
-├── index.ts       # Public API
-└── tests/         # Feature tests
-```
-
-## AI Feedback Loop
-
-The stack is optimized for AI agents to self-correct:
+Every feature in this repo was built using the agent workflow:
 
 ```
-Generate Code → Run Checks → Parse Errors → Fix Code → Repeat
+requirements.md → /plan → /implement → validate → ship
 ```
 
-Checks produce machine-readable feedback:
-- TypeScript: Type errors with file:line
-- Biome: Lint errors with suggestions
-- Tests: Failed assertions with expected/actual
-- Logs: Structured JSON with context
+Agents produce machine-readable feedback that closes the loop:
+- TypeScript: exact file:line errors
+- Biome: lint errors with safe-fix suggestions
+- Tests: expected vs actual diffs
+- Logs: structured JSON with domain context
 
 ## Environment Variables
 
 ```bash
-# Supabase
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-
-# Database (use transaction pooler for serverless)
 DATABASE_URL=postgresql://postgres.[ref]:[password]@aws-0-[region].pooler.supabase.com:6543/postgres
 ```
